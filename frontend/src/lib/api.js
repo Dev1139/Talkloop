@@ -9,7 +9,6 @@ export const login = async (loginData) => {
   const response = await axiosInstance.post("/auth/login", loginData);
   return response.data;
 };
-
 export const logout = async () => {
   const response = await axiosInstance.post("/auth/logout");
   return response.data;
@@ -20,11 +19,9 @@ export const getAuthUser = async () => {
     const res = await axiosInstance.get("/auth/me");
     return res.data;
   } catch (error) {
-
-    console.log("Error in getAuthUser : ",error);
-    return null       // if authUser is null then isAuthenticated is false 
+    console.log("Error in getAuthUser:", error);
+    return null;
   }
-  
 };
 
 export const completeOnboarding = async (userData) => {
@@ -40,10 +37,10 @@ export async function getUserFriends() {
 export async function getRecommendedUsers() {
   const response = await axiosInstance.get("/users");
   return response.data;
-} 
+}
 
 export async function getOutgoingFriendReqs() {
-  const response = await axiosInstance.get("/users/outgoing-friend-requests")
+  const response = await axiosInstance.get("/users/outgoing-friend-requests");
   return response.data;
 }
 
@@ -58,13 +55,11 @@ export async function getFriendRequests() {
 }
 
 export async function acceptFriendRequest(requestId) {
-  const response = await axiosInstance.put(
-    `/users/friend-request/${requestId}/accept`
-  );
+  const response = await axiosInstance.put(`/users/friend-request/${requestId}/accept`);
   return response.data;
 }
 
 export async function getStreamToken() {
-    const response = await axiosInstance.get("/chat/token");
-    return response.data
+  const response = await axiosInstance.get("/chat/token");
+  return response.data;
 }

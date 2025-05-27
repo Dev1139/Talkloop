@@ -1,14 +1,14 @@
-import { Navigate, Route, Router } from "react-router";
+import { Navigate, Route, Routes } from "react-router"; // from react-router-dom
 import HomePage from "./pages/HomePage.jsx";
 import CallPage from "./pages/CallPage.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
 import SignUpPage from "./pages/SignUpPage.jsx";
+import FriendsPage from "./pages/FriendsPage.jsx";
 import NotificationsPage from "./pages/NotificationsPage.jsx";
 import ChatPage from "./pages/ChatPage.jsx";
 import OnboardingPage from "./pages/OnboardingPage.jsx";
 import { Toaster } from "react-hot-toast";
 
-import { Routes } from "react-router";
 import PageLoader from "./components/PageLoader.jsx";
 
 import useAuthUser from "./hooks/useAuthUser.js";
@@ -16,21 +16,16 @@ import Layout from "./components/Layout.jsx";
 import { useThemeStore } from "./store/useThemeStore.js";
 
 const App = () => {
-  // tanstack query
-  // fetching synchronous data we can also use axios that is better then fetch syntax wise not efficient
-
   const { theme } = useThemeStore();
-
   const { isLoading, authUser } = useAuthUser();
 
-  const isAuthenticated = Boolean(authUser); // becasue authuser ==> object
-
+  const isAuthenticated = Boolean(authUser);
   const isOnboarded = authUser?.isOnboarded;
 
   if (isLoading) return <PageLoader />;
 
   return (
-    <div className=" h-screen" data-theme={theme}>
+    <div className="h-screen" data-theme={theme}>
       <Routes>
         <Route
           path="/"
@@ -61,6 +56,18 @@ const App = () => {
               <LoginPage />
             ) : (
               <Navigate to={isOnboarded ? "/" : "/onboarding"} />
+            )
+          }
+        />
+        <Route
+          path="/friends"
+          element={
+            isAuthenticated && isOnboarded ? (
+              <Layout showSidebar={true}>
+                <FriendsPage />
+              </Layout>
+            ) : (
+              <Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />
             )
           }
         />
